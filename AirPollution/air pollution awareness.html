@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="./Style.css" />
+    <script src="./JS.js"></script>
+    <title>Air Pollution</title>
+</head>
+<body>
+    <div class="slider">
+        <input type="radio" name="slider" title="slide1" checked="checked" class="slider__nav"/>
+        <input type="radio" name="slider" title="slide2" class="slider__nav"/>
+        <input type="radio" name="slider" title="slide3" class="slider__nav"/>
+        <input type="radio" name="slider" title="slide4" class="slider__nav"/>
+        <div class="slider__inner">
+          <div class="slider__contents"><i class="slider__image fa fa-codepen"></i>
+            <h2 class="slider__caption">Introduction:</h2>
+            <p class="slider__txt">Air pollution is a significant global environmental concern affecting the health and well-being of individuals and ecosystems. Malaysia, a developing Southeast Asian nation, has experienced rapid industrialization and urbanization over the past few decades. Consequently, the country has encountered challenges related to air pollution. This essay aims to explore the Air Quality Index (AQI) and air pollution issues in Malaysia, highlighting the causes, impacts, and measures taken to mitigate the problem. 
+          </div>
+          <div class="slider__contents"><i class="slider__image fa fa-newspaper-o"></i>
+            <h2 class="slider__caption">Causes of Air Pollution:</h2>
+            <p class="slider__txt">1- Industrial Activities : Malaysia's industrial sector, including manufacturing and processing plants, contributes to air pollution through emissions of pollutants such as sulfur dioxide (SO2), nitrogen oxides (NOx), and particulate matter (PM).
+                <br>2- Transportation : The increasing number of vehicles on Malaysian roads leads to emissions of carbon monoxide (CO), nitrogen dioxide (NO2), and volatile organic compounds (VOCs), contributing to air pollution.
+                <br>3- Agricultural Practices : Agricultural activities, such as open burning of crop residues and the use of chemical fertilizers and pesticides, release pollutants such as ammonia (NH3) and methane (CH4), which degrade air quality.
+                <br>4- Forest Fires : Malaysia experiences periodic episodes of forest fires, particularly during the dry season. These fires release large amounts of smoke, carbon dioxide (CO2), and hazardous airborne particles, significantly impacting air quality.</p>
+          </div>
+          <div class="slider__contents"><i class="slider__image fa fa-television"></i>
+            <h2 class="slider__caption">Impacts of Air Pollution:</h2>
+            <p class="slider__txt">1- Health Effects: High levels of air pollution can lead to respiratory problems, such as asthma, bronchitis, and lung cancer. Vulnerable groups, including children, the elderly, and individuals with pre-existing respiratory conditions, are particularly at risk.<br>
+                2- Environmental Degradation: Air pollution harms ecosystems, leading to acid rain, reduced crop yields, and biodiversity loss. It negatively affects water bodies, soils, and vegetation, disrupting the delicate balance of ecosystems.<br>
+                3- Economic Consequences: The adverse impacts of air pollution extend to the economy, as it can affect tourism, agriculture, and overall productivity. Healthcare costs also increase due to the treatment of pollution-related illnesses.</p>
+
+            </p>
+          </div>
+          <div class="slider__contents"><i class="slider__image fa fa-diamond"></i>
+            <h2 class="slider__caption">Air Quality Index (AQI):</h2>
+            <p class="slider__txt">The Air Quality Index is a metric that provides a standardized assessment of air pollution levels. It takes into account various pollutants, including PM2.5, PM10, sulfur dioxide, nitrogen dioxide, carbon monoxide, and ozone. The AQI categorizes air quality into several levels, ranging from "Good" to "Hazardous," enabling individuals to understand the severity of pollution and take necessary precautions.</p>
+          </div> 
+        </div>
+      </div>
+      <div class="container">
+        <!-- <span class="title">Spread Awarness</span> -->
+      </div>
+       <script>
+        var canvas = document.createElement("canvas");
+        var width = canvas.width = window.innerWidth * 0.75;
+        var height = canvas.height = window.innerHeight * 0.75;
+        document.body.appendChild(canvas);
+        var gl = canvas.getContext('webgl');
+
+        var mouse = {x: 0, y: 0};
+
+        var numMetaballs = 30;
+        var metaballs = [];
+
+        for (var i = 0; i < numMetaballs; i++) {
+        var radius = Math.random() * 60 + 10;
+        metaballs.push({
+            x: Math.random() * (width - 2 * radius) + radius,
+            y: Math.random() * (height - 2 * radius) + radius,
+            vx: (Math.random() - 0.5) * 3,
+            vy: (Math.random() - 0.5) * 3,
+            r: radius * 0.75
+        });
+        }
+
+        var vertexShaderSrc = `
+        attribute vec2 position;
+
+        void main() {
+        // position specifies only x and y.
+        // We set z to be 0.0, and w to be 1.0
+        gl_Position = vec4(position, 0.0, 1.0);
+        }
+        `;
+
+        var fragmentShaderSrc = `
+        precision highp float;
+
+        const float WIDTH = ` + (width >> 0) + `.0;
+        const float HEIGHT = ` + (height >> 0) + `.0;
+
+        uniform vec3 metaballs[` + numMetaballs + `];
+
+        void main(){
+        float x = gl_FragCoord.x;
+        float y = gl_FragCoord.y;
+
+        float sum = 0.0;
+        for (int i = 0; i < ` + numMetaballs + `; i++) {
+        vec3 metaball = metaballs[i];
+        float dx = metaball.x - x;
+        float dy = metaball.y - y;
+        float radius = metaball.z;
+
+        sum += (radius * radius) / (dx * dx + dy * dy);
+        }
+
+        if (sum >= 0.99) {
+        gl_FragColor = vec4(mix(vec3(x / WIDTH, y / HEIGHT, 1.0), vec3(0, 0, 0), max(0.0, 1.0 - (sum - 0.99) * 100.0)), 1.0);
+        return;
+        }
+
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }
+
+        `;
+
+        var vertexShader = compileShader(vertexShaderSrc, gl.VERTEX_SHADER);
+        var fragmentShader = compileShader(fragmentShaderSrc, gl.FRAGMENT_SHADER);
+
+        var program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        gl.useProgram(program);
+
+        var vertexData = new Float32Array([
+        -1.0,  1.0, // top left
+        -1.0, -1.0, // bottom left
+        1.0,  1.0, // top right
+        1.0, -1.0, // bottom right
+        ]);
+        var vertexDataBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexDataBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
+
+        var positionHandle = getAttribLocation(program, 'position');
+        gl.enableVertexAttribArray(positionHandle);
+        gl.vertexAttribPointer(positionHandle,
+                            2, // position is a vec2
+                            gl.FLOAT, // each component is a float
+                            gl.FALSE, // don't normalize values
+                            2 * 4, // two 4 byte float components per vertex
+                            0 // offset into each span of vertex data
+                            );
+
+        var metaballsHandle = getUniformLocation(program, 'metaballs');
+
+        loop();
+        function loop() {
+        for (var i = 0; i < numMetaballs; i++) {
+            var metaball = metaballs[i];
+            metaball.x += metaball.vx;
+            metaball.y += metaball.vy;
+
+            if (metaball.x < metaball.r || metaball.x > width - metaball.r) metaball.vx *= -1;
+            if (metaball.y < metaball.r || metaball.y > height - metaball.r) metaball.vy *= -1;
+        }
+
+        var dataToSendToGPU = new Float32Array(3 * numMetaballs);
+        for (var i = 0; i < numMetaballs; i++) {
+            var baseIndex = 3 * i;
+            var mb = metaballs[i];
+            dataToSendToGPU[baseIndex + 0] = mb.x;
+            dataToSendToGPU[baseIndex + 1] = mb.y;
+            dataToSendToGPU[baseIndex + 2] = mb.r;
+        }
+        gl.uniform3fv(metaballsHandle, dataToSendToGPU);
+        
+        //Draw
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+        requestAnimationFrame(loop);
+        }
+
+        function compileShader(shaderSource, shaderType) {
+        var shader = gl.createShader(shaderType);
+        gl.shaderSource(shader, shaderSource);
+        gl.compileShader(shader);
+
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            throw "Shader compile failed with: " + gl.getShaderInfoLog(shader);
+        }
+
+        return shader;
+        }
+
+        function getUniformLocation(program, name) {
+        var uniformLocation = gl.getUniformLocation(program, name);
+        if (uniformLocation === -1) {
+            throw 'Can not find uniform ' + name + '.';
+        }
+        return uniformLocation;
+        }
+
+        function getAttribLocation(program, name) {
+        var attributeLocation = gl.getAttribLocation(program, name);
+        if (attributeLocation === -1) {
+            throw 'Can not find attribute ' + name + '.';
+        }
+        return attributeLocation;
+        }
+
+        canvas.onmousemove = function(e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        }
+      </script>
+</body>
+</html>

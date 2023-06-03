@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Malaysia Air Quality Index and Air Pollution Information</title>
+  <style>
+:root{
+    --mainColor: #0CEC84;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.container{
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+/* End Main Style */
+
+/* Start Landing */
+
+.landing{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #1E212D;
+}
+/* Header */
+.landing header{
+    background-color: transparent;
+    position: relative;
+    padding: 27px 0;
+}
+/* Logo */
+.landing header .logo{
+    float: left;
+    color: #e4fbff;
+    text-decoration: none;
+    font-size: 27px;
+}
+/* Toggle Mneu Style */
+.landing header .menu-Toggle{
+    width: 35px;
+    background-color: #00d46f;
+    padding: 5px;
+    float: right;
+    position: absolute;
+    border-radius: 2px;
+    cursor: pointer;
+    display: none;
+    transition: 0.5s;
+    right: 0;
+    z-index: 1001;
+}
+@media (max-width: 991px) {
+    .landing header .menu-Toggle{
+        display: block;
+    }
+}
+.landing header .menu-Toggle:hover{
+    opacity: 0.8;
+}
+.landing header .menu-Toggle:active{
+    opacity: 1;
+}
+.landing header .menu-Toggle span{
+    width: 100%;
+    height: 3px;
+    background-color: #e4fbff;
+    display: block;
+    pointer-events: none;
+    border-radius: 20px;
+    transition: 0.5s ease-in-out;
+}
+/* The Menu Toggle Animation Spns */
+.landing header .menu-Toggle.anim span:first-child{
+    width: 50%;
+}
+.landing header .menu-Toggle.anim span:nth-child(2){
+    width: 80%;
+    margin-left: 7px;
+}
+.landing header .menu-Toggle.anim span:last-child{
+    width: 60%;
+}
+
+.menu-Toggle span:not(:last-child){
+    margin-bottom: 5px;
+}
+.landing header .logo span{
+    color: var(--mainColor);
+}
+/* Menu Links */
+.landing header nav ul{
+    float: right;
+    list-style: none;
+}
+@media (max-width: 991px) {
+    .landing header nav ul {
+        width: 70%;
+        float: none;
+        background-color: #0e101a;
+        text-align: center;
+        position: absolute;
+        top: -400px;
+        transition: 0.5s ease-in-out;
+        z-index: 1000;
+        padding: 20px 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 1px solid rgba(221, 221, 221, 0.08);;
+    }
+    .landing header nav ul.open{
+        top: 0;
+    }
+}
+.landing header nav ul li{
+    display: inline-block;
+    padding: 10px 20px;
+}
+@media (max-width: 991px) {
+    .landing header nav ul li {
+        display: block;
+        margin: 15px 0;
+    }
+}
+.landing header nav ul li a{
+    color: #e4fbff;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.4s;
+}
+.landing header nav ul li a:hover{
+    color: var(--mainColor);
+}
+.landing header nav ul li:first-child a{
+    color: var(--mainColor);
+}
+.landing header nav ul li:last-child a{
+    border: 1px solid var(--mainColor);;
+    border-radius: 4px;
+    color: var(--mainColor);;
+    padding: 8px 15px 6px;
+}
+.landing header nav ul li:last-child a:hover{
+    background-color: var(--mainColor);;
+    color: #fff;
+}
+
+/* Overlay Layer */
+@media (max-width: 991px) {
+    .landing .overlay{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0, .4);
+        z-index: 999;
+        opacity: 0;
+        display: none;
+        transition: 0.5s ease-in-out;
+    }
+    .landing .overlay.show{
+        display: block;
+        animation: feedIn 0.5s ease-in-out;
+        opacity: 1;
+    }
+}
+
+@keyframes feedIn{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+/* Landing Content */
+.landing-Content{
+    color: #e4fbff;
+    width: 90%; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70vh;
+    margin: auto;
+}
+.introduction-text{
+    margin-top: 50px;
+}
+.introduction-text h2{
+    font-size: 50px;
+}
+@media (max-width: 768px) {
+    .introduction-text h2{
+        font-size: 44px;
+    }
+}
+.introduction-text h2 span{
+    color: var(--mainColor);
+}
+.introduction-text p{
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 23px;
+    margin-top: 33px;
+    margin-bottom: 40px;
+}
+.introduction-text a{
+    text-decoration: none;
+    color: #e4fbff;
+    background-color: #00d46f;
+    padding: 10px 25px;
+    border-radius: 3px;
+    font-weight: bold;
+    transition: 0.4s ease-in-out;
+    font-size: 14px;
+}
+.introduction-text a:hover{
+    background-color: #31fc9d;
+}
+
+.landing-Content .photo-landing img{
+    width: 270px;
+    height: 400px;
+    object-fit: cover;
+    box-shadow:0 0 50px rgba(255, 255, 255, 0.051);
+    border: 1px solid rgba(0, 255, 136, 0.369);
+    padding: 3px;
+    filter: grayscale(100%);
+    transition: 0.6s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    top: 30px;
+}
+@media (max-width: 768px) {
+    .landing-Content .photo-landing img {
+        display: none;
+    }
+}
+.landing-Content .photo-landing img:hover{
+    filter: grayscale(0%);
+}
+/* End Landing */
+
+
+/*  Start Responsive Friendly  */
+
+@media (min-width: 576px) { /* Small Screens */
+    .container {
+        max-width: 540px;
+    }
+}
+@media (min-width: 768px) { /* Medium Screens */
+    .container {
+        max-width: 720px;
+    }
+}
+@media (min-width: 992px) { /* Desktops Screens */
+    .container {
+        max-width: 960px;
+    }
+}
+@media (min-width: 1200px) { /* Large Screens */
+    .container {
+        max-width: 1140px;
+    }
+}
+
+p {
+  line-height: 1.2;
+  text-align: left;
+  animation-name: paragraph;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes paragraph {
+  0% {transform: translateX(-1000px)}
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+.footer {
+  position: relative;
+  width: 100%;
+  background: #3586ff;
+  min-height: 100px;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.social-icon,
+.menu {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.social-icon__item,
+.menu__item {
+  list-style: none;
+}
+
+.social-icon__link {
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 10px;
+  display: inline-block;
+  transition: 0.5s;
+}
+.social-icon__link:hover {
+  transform: translateY(-10px);
+}
+
+.menu__link {
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 0 10px;
+  display: inline-block;
+  transition: 0.5s;
+  text-decoration: none;
+  opacity: 0.75;
+  font-weight: 300;
+}
+
+.menu__link:hover {
+  opacity: 1;
+}
+
+.footer p {
+  color: #fff;
+  margin: 15px 0 10px 0;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.wave {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: url("https://i.ibb.co/wQZVxxk/wave.png");
+  background-size: 1000px 100px;
+}
+
+.wave#wave1 {
+  z-index: 1000;
+  opacity: 1;
+  bottom: 0;
+  animation: animateWaves 4s linear infinite;
+}
+
+.wave#wave2 {
+  z-index: 999;
+  opacity: 0.5;
+  bottom: 10px;
+  animation: animate 4s linear infinite !important;
+}
+
+.wave#wave3 {
+  z-index: 1000;
+  opacity: 0.2;
+  bottom: 15px;
+  animation: animateWaves 3s linear infinite;
+}
+
+.wave#wave4 {
+  z-index: 999;
+  opacity: 0.7;
+  bottom: 20px;
+  animation: animate 3s linear infinite;
+}
+
+@keyframes animateWaves {
+  0% {
+    background-position-x: 1000px;
+  }
+  100% {
+    background-positon-x: 0px;
+  }
+}
+
+@keyframes animate {
+  0% {
+    background-position-x: -1000px;
+  }
+  100% {
+    background-positon-x: 0px;
+  }
+}
+/*  End Responsive Friendly  */
+</style>
+</head>
+<body>
+<!-- Start Landing -->
+<div class="landing">
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <a href="./index.html" class="logo">Air <span>Pollution</span> in Malaysia</a>
+      <div class="menu-Toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav>
+        <ul class="menu-Links">
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="#">In depth</a></li>
+          <li><a href="./causes.html">Causes</a></li>
+          <li><a href="./Air quality index.html">Air Quality Index</a></li>
+          <li><a href="https://www.iqair.com/earth?nav=" target="_blank">Live</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Landing Content -->
+    <div class="landing-Content">
+      <div class="introduction-text">
+        <h2>In <span>depth</span> look</h2>
+        <p>In order for a city or country to be classified as moderately polluted requires a PM2.5 reading anywhere between 12.1 to 35.4 µg/m³, putting Malaysia somewhat at the lower end of this moderate spectrum, however as it can be observed, there are months throughout the year that experience rapid spikes in pollution, and as such it is of importance to take this into account, both in regards to the yearly average rating as well as the causes and appropriate measures that may be taken against it. In terms of how polluted it is in comparison to other countries in south east Asia, it can be seen that Malaysia actually came in with a significantly better placing than many of its ASEAN (Association of South East Asian Nations) neighbors, coming in with a better position ahead of countries such as Thailand, which presented with a ranking of 28th place in 2019, Vietnam (15th place) and Indonesia (6th place). This goes to show that whilst Malaysia has a plethora of pollution and haze related issues that it has to deal with year in year out, its neighbors give some perspective of the improvements that it has made over the last few decades of industrial growth, and despite facing many obstacles in its path towards cleaner air, pollution levels could eventually be reduced quite significantly.
+
+          Some of these aforementioned obstacles include an over reliance on vehicles, a lack of highly efficient public transport systems as compared to other countries (although this is changing rapidly with large amounts of investment going into public transport initiatives and projects) as well as comparatively lax rules regarding types of fuels used as well as heavy fuel subsidies, causing a number of pollutants such as nitrogen dioxide (NO2) and sulfur dioxide (SO2) to enter into the atmosphere, causing worse US AQI readings as well as an increased level of PM2.5 found in the air, coming heavily from the automobile sector.
+          
+          PM2.5 refers to fine particulate matter of 2.5 micrometers or less, with highly detrimental effects displayed in those who breathe it over long periods of time. With its 50th place ranking worldwide out of 98 countries ranked, it stands as a country that suffers from periods of extremely poor air quality where these PM2.5 levels will climb quickly to dangerous levels, however throughout the rest of the year when Malaysia is absent from these pollution spikes (which when considered, are sometimes out of its control due to transborder smoke issues) the air quality sits at the lower end of the moderate rating, with some cities finding themselves in the ‘good’ rated bracket throughout the majority of the year, and others finding themselves sitting within the World Health Organization’s target reading of 0 to 10 µg/m³ during a majority of the months of the year, as recorded in 2019.
+          
+          When observing some of the cities displayed on the IQAir website, such as the top seven most polluted cities in Malaysia as of 2019, it is evident that the levels of pollution in these cities could be somewhat of a concern, and be bringing down the countries yearly average ranking. These top seven cities, which include ones such as Kuala Lumpur, Putrajaya, Shah Alam and Petaling Jaya to name a few, sat at moderate ratings all year round, with rapid climbs observed in August, followed by a dangerous spike in pollution in the month of September, sometimes spilling over into October but gradually receding afterwards. For cities such as these, especially during the latter part of the year, it is apparent that they suffer from a poorer quality of air, and would be of significant concern for those living there year-round, with preventative measures being of greater importance.</p>
+
+      </div>
+      <!-- <div class="photo-landing">
+        <img src="https://k.top4top.io/p_189164l321.jpeg" draggable="false" alt="The Person Image">
+      </div> -->
+    </div>
+
+  </div>
+</div>
+<footer class="footer">
+  <div class="waves">
+    <div class="wave" id="wave1"></div>
+    <div class="wave" id="wave2"></div>
+    <div class="wave" id="wave3"></div>
+    <div class="wave" id="wave4"></div>
+  </div>
+  <ul class="social-icon">
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-facebook"></ion-icon>
+      </a></li>
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-twitter"></ion-icon>
+      </a></li>
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-linkedin"></ion-icon>
+      </a></li>
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-instagram"></ion-icon>
+      </a></li>
+  </ul>
+  <ul class="menu">
+    <li class="menu__item"><a class="menu__link" href="./index.html">Home</a></li>
+    <li class="menu__item"><a class="menu__link" href="#">In depth</a></li>
+    <li class="menu__item"><a class="menu__link" href="./causes.html">Causes</a></li>
+    <li class="menu__item"><a class="menu__link" href="./Air quality index.html">Air Quality Index</a></li>
+  </ul>
+  <p>&copy;Samir Aljaabari</p>
+</footer>
+<!-- End Landing -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+/* * * * * * * * * * * Varaibles * * * * * * * * * * */
+
+let menuToggleBtn = document.querySelector('.menu-Toggle'), // Slect The Menu Toggle Button
+
+  menuLinks = document.querySelector('.menu-Links'), // Select The Menu Links [ ul ]
+
+  overlay = document.querySelector('.overlay'); // Select The Overlay Layer
+
+/* * * * * * * * * * * Events * * * * * * * * * * */
+
+// When Click On The [ menuToggleBtn ] Run [ showMenu ] Function
+menuToggleBtn.addEventListener('click', showMenu);
+
+// Close The Menu When Clikc In AnyWhery Run [ hideMenu ] Function
+document.addEventListener('click', hideMenu);
+
+// Stop The Propagation From The MenuLinks, When Clikc In [ menuLinks ] Run [ stopPropagation ] Function
+menuLinks.addEventListener("click", stopPropagation);
+
+/* * * * * * * * * * * Functions * * * * * * * * * * */
+
+function showMenu() { // [ showMenu ] Function
+
+  // Toggle Class [ open ] on [ menuLinks ]
+  menuLinks.classList.toggle("open");
+  // Toggle Class [ show ] on [ overlay ]
+  overlay.classList.toggle("show");
+
+};
+
+function hideMenu(e) { // [ hideMenu ] Function
+
+  // Check If The Target Element Is Not [ menuToggleBtn ]
+  if (e.target != menuToggleBtn) {
+    // Remove Class [ open ] From [ menuLinks ]
+    menuLinks.classList.remove("open");
+    // Remove Class [ show ] From [ overlay ]
+    overlay.classList.remove("show");
+  };
+
+};
+
+function stopPropagation(e) { // [ stopPropagation ] Function
+
+  // stopPropagation
+  e.stopPropagation();
+  
+};
+
+</script>
+</body>
+</html>
