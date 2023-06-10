@@ -1,0 +1,399 @@
+<!-- header start butoon  -->
+<header class="start">
+    <button id="start_quiz">Start Quiz</button>
+  </header>
+  <!-- quiz box -->
+  <section class="quiz_container">
+    <div class="quiz_text">
+      <h1>Math Multiple choice questions</h1>
+    </div>
+
+    <div class="quiz_box">
+      <div class="quiz_question"></div>
+      <div class="options"></div>
+    </div>
+
+    <footer>
+      <div class="question_no"></div>
+      <div class="buttons">
+        <button class="btn" id="next">Next</button>
+      </div>
+    </footer>
+  </section>
+
+  <article class="result_box">
+    <div class="score"></div>
+    <button id="replay" class="btn">Replay Quiz</button>
+  </article>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Tiro+Bangla&display=swap');
+
+:root {
+  --body-bg: #d99e55;
+  ;
+  --start_quiz-c: #1d9eab;
+  --white: #fff;
+  --bg-button: #e0e0e0;
+  --right: #87e487;
+  --wrong: #f19a9a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  background-color: var(--body-bg);
+}
+
+input,
+button,
+h1 ,
+span{
+  outline: 0;
+  border: 0;
+  font-family: inherit;
+}
+
+/* center all box  */
+.start,
+.quiz_container,
+.result_box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  background: var(--white);
+  box-shadow: 15px 15px 24px #bd986a, -15px -15px 20px #bd986a;
+}
+
+/* start button  */
+.start #start_quiz {
+  padding: 15px;
+  border-radius: 10px;
+  color: var(--start_quiz-c);
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* quiz box  */
+.quiz_container {
+  border-radius: 20px;
+  padding: 20px;
+  width: 600px;
+  display: none;
+}
+
+/* quiz_text  */
+.quiz_container .quiz_text {
+  margin-bottom: 20px;
+}
+
+.quiz_container .quiz_text h1 {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* quiz_box  */
+.quiz_box {
+  padding: 10px 5px;
+}
+
+.quiz_box .quiz_question h1 {
+  font-size: 1.1rem;
+}
+
+.quiz_box .quiz_question p {
+  display: inline;
+}
+
+/* options  */
+.option_list {
+  margin-top: 15px;
+  font-size: 1rem;
+  padding: 5px 15px;
+  background-color: var(--bg-button);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s ease;
+  user-select: none;
+  box-shadow: 1px 1px 8px #bebebe, -1px -1px 20px #ffffff
+}
+
+.options .option_list:hover {
+  background-color: var(--start_quiz-c);
+}
+
+.options .option_list.correct {
+  background-color: var(--right);
+}
+
+.options .option_list.wrong {
+  background-color: var(--wrong);
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+/* footer  */
+footer {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+
+}
+
+.center {
+  display: flex;
+  font-size: 0.9rem;
+  margin-left: 6px;
+}
+
+footer .buttons {
+  margin-right: 6px;
+}
+
+.btn {
+  padding: 7px 15px;
+  border-radius: 10px;
+  background: var(--start_quiz-c);
+  color: var(--white);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* score  */
+.result_box {
+  display: none;
+  padding: 20px;
+  text-align: center;
+}
+
+.score span {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+span p {
+  padding: 0 5px;
+}
+</style>
+<script>
+    const questions = [
+    {
+        'id': 1,
+        "question": 'What is 2 + 2?',
+        'Options': [
+            '3',
+            '1',
+            '22',
+            '4'
+        ],
+        'answer': '4'
+    },
+    {
+        'id': 2,
+        "question": 'What is the smallest number?',
+        'Options': [
+            '8',
+            '5',
+            '0',
+            '10'
+        ],
+        'answer': '0'
+    },
+    {
+        'id': 3,
+        "question": 'What is the biggest number?',
+        'Options': [
+            '3',
+            '7',
+            '1',
+            '5'
+        ],
+        'answer': '7'
+    },
+    {
+        'id': 4,
+        "question": 'Which of the following is right?',
+        'Options': [
+            '5+5=5',
+            '3+6=7',
+            '1+0=10',
+            'None of the above'
+        ],
+        'answer': 'None of the above'
+    },
+    {
+        'id': 5,
+        "question": 'What sign do we use to add numbers?',
+        'Options': [
+            '-',
+            '+',
+            '*',
+            '/'
+        ],
+        'answer': '+'
+    },
+    {
+        'id': 6,
+        "question": '4-2=?',
+        'Options': [
+            '1',
+            '4',
+            '2',
+            '6'
+        ],
+        'answer': '2'
+    },
+    {
+        'id': 7,
+        "question": ' 5 + _ = 7',
+        'Options': [
+            '1',
+            '5',
+            '0',
+            '2'
+        ],
+        'answer': '2'
+    },
+    {
+        'id': 8,
+        "question": '_ - 3 = 5',
+        'Options': [
+            '8',
+            '5',
+            '3',
+            '9'
+        ],
+        'answer': '8'
+    },
+    {
+        'id': 9,
+        "question": 'Is 6 bigger than 9?',
+        'Options': [
+            'Yes',
+            'No',
+            'Maybe',
+            'None of the above'
+        ],
+        'answer': 'No'
+    },
+    {
+        'id': 10,
+        "question": 'What does this sign mean - ?',
+        'Options': [
+            'Plus',
+            'Minus',
+            'All of the above',
+            'None of the above'
+        ],
+        'answer': 'Minus'
+    }
+
+]
+
+const start_quiz = document.querySelector('#start_quiz');
+const container = document.querySelector('.quiz_container');
+const result_box = document.querySelector('.result_box');
+const next = document.querySelector('#next');
+const section_next = document.querySelector('.ques');
+const replay = document.querySelector('#replay');
+const options = document.querySelector('.options');
+const buttons = document.querySelector('.buttons');
+
+// start_quiz button event 
+start_quiz.addEventListener('click', () => {
+    start_quiz.style.display = 'none';
+    container.style.display = 'block';
+    show_question(0);
+    buttons.classList.add('disabled');
+
+})
+
+// replay button event 
+replay.addEventListener('click', () => {
+    start_quiz.style.display = 'block';
+    result_box.style.display = 'none';
+    active = 0;
+    userscore = 0;
+    show_question(active);
+    options.classList.remove('disabled');
+})
+
+// next button event 
+let active = 0; // question index number
+next.addEventListener('click', () => {
+    if (active < questions.length - 1) {
+        active++;
+        show_question(active);
+        options.classList.remove('disabled');
+        buttons.classList.add('disabled')
+    }
+    else {
+        result_box.style.display = 'block';
+        container.style.display = 'none'
+        result(); //result function 
+    }
+})
+
+// show_question function 
+let userscore = 0; // correct answer select by user
+function show_question(index) {
+    // question name 
+    const quiz_question = document.querySelector('.quiz_question');
+    quiz_question.innerHTML = `<h1><p>${questions[index].id}. </p>${questions[index].question}</h1>`
+    //  question option list 
+    options.innerHTML = `<div class="option_list">${questions[index].Options[0]}</div>
+    <div class="option_list">${questions[index].Options[1]}</div>
+    <div class="option_list">${questions[index].Options[2]}</div>
+    <div class="option_list">${questions[index].Options[3]}</div>`
+    // current number of question
+    const question_no = document.querySelector('.question_no');
+    question_no.innerHTML = `<span class="center"><p>${questions[index].id}</p>of<p>${questions.length}</p>Questions</span>`
+
+    const options_list = document.querySelectorAll('.option_list');
+    options_list.forEach((e) => {
+        e.addEventListener('click', (op) => {
+            if (op.target.innerHTML == questions[active].answer) {
+                console.log(op.target.innerHTML);
+                userscore++; //userscore incresed by correct answer
+                e.classList.add('correct');
+                options.classList.add('disabled');
+                buttons.classList.remove('disabled');
+            }
+
+            else {
+                e.classList.add('wrong');
+                options.classList.add('disabled');
+                buttons.classList.remove('disabled');
+                // if wrong answer selected then correct class added correct answer 
+                for (let i = 0; i < options.children.length; i++) {
+                    if (options.children[i].innerHTML == questions[active].answer) {
+                        options.children[i].classList.add('correct');
+                    }
+                }
+            }
+        })
+    })
+}
+
+function result() {
+    const score = document.querySelector('.score');
+    score.innerHTML = `<h1>Your Score is</h1><span><p>${userscore}</p>of<p>${questions.length}</p></span>`
+}
+
+
+</script>
